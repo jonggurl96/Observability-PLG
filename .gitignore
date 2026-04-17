@@ -1,5 +1,6 @@
 # 빌드 산출물과 로컬 실행 중 생성되는 파일은 저장소에서 제외한다.
 backend/build/
+backend/.gradle/
 frontend/.next/
 frontend/node_modules/
 
