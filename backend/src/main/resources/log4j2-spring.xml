@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  콘솔과 파일에 동시에 로그를 남겨 개발 중 확인과 Promtail 수집을 모두 지원한다.
+  파일 위치는 환경 변수로 바꿀 수 있게 해 도커/로컬 실행 모두 같은 설정을 재사용한다.
+-->
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_DIR">${env:LOG_DIR:-logs}</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+
+        <RollingFile
+                name="FileAppender"
+                fileName="${LOG_DIR}/application.log"
+                filePattern="${LOG_DIR}/application-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="14" />
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender" />
+        </Root>
+    </Loggers>
+</Configuration>

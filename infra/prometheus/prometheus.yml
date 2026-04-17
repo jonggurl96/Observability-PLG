@@ -1,0 +1,22 @@
+# 백엔드 actuator와 프론트엔드 커스텀 메트릭 엔드포인트를 함께 수집한다.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - prometheus:9090
+
+  - job_name: backend
+    metrics_path: /prometheus
+    static_configs:
+      - targets:
+          - backend:8080
+
+  - job_name: frontend
+    metrics_path: /api/metrics
+    static_configs:
+      - targets:
+          - frontend:3000

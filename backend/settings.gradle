@@ -1,0 +1,2 @@
+// 단일 백엔드 모듈 이름을 명확히 지정해 Gradle 결과물이 일관되게 생성되도록 한다.
+rootProject.name = 'observability-backend'

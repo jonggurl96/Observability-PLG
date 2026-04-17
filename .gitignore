@@ -1,0 +1,12 @@
+# 빌드 산출물과 로컬 실행 중 생성되는 파일은 저장소에서 제외한다.
+backend/build/
+frontend/.next/
+frontend/node_modules/
+
+# 관측성 스택이 실행되면서 누적하는 로컬 로그 파일은 커밋하지 않는다.
+logs/backend/*.log
+logs/frontend/*.log
+logs/nginx/*.log
+
+# 도구가 로컬에서 생성하는 임시 폴더도 제외한다.
+.docker-temp/

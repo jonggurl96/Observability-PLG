@@ -1,0 +1,38 @@
+# Promtail은 백엔드, 프론트엔드, Nginx 파일 로그를 Loki로 전달한다.
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: backend-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: backend
+          service: backend
+          __path__: /var/log/observability/backend/*.log
+
+  - job_name: frontend-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: frontend
+          service: frontend
+          __path__: /var/log/observability/frontend/*.log
+
+  - job_name: nginx-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: nginx
+          service: nginx
+          __path__: /var/log/nginx/*.log
